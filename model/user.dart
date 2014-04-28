@@ -16,18 +16,19 @@ class User extends InstagramModel {
 		: super( accessToken, jsonString) {
 		
 		Map user = JSON.decode(jsonString);
-		id = int.parse(user['data']['id']);
-		userName = user['data']['username'];
-		fullName = user['data']['full_name'];
-		profilePictureUri = user['data']['profile_picture'];
-		bio = user['data']['bio'];
-		website = user['data']['website'];
+		id = int.parse(user['id']);
+		userName = user['username'];
+		fullName = user['full_name'];
+		profilePictureUri = user['profile_picture'];
+		bio = user['bio'];
+		website = user['website'];
 		
-		Map counts = user['data']['counts'];
-		mediaCount = counts['media'];
-		followerCount = counts['followed_by'];
-		followingCount = counts['follows'];
-	
+		if (user['counts'] != null) {
+			Map counts = user['counts'];
+  		mediaCount = counts['media'];
+  		followerCount = counts['followed_by'];
+  		followingCount = counts['follows'];
+		}
 	}
 	
 		 int get id => _id;
@@ -46,7 +47,8 @@ class User extends InstagramModel {
 	   int get mediaCount => _mediaCount;
 	       set mediaCount(int mediaCount) => _mediaCount = mediaCount;
 		 int get followerCount => _followerCount;
-		     set followerCount(int followerCount) => _followerCount = followerCount;
+		     set followerCount(int followerCount) => 
+		    		 _followerCount = followerCount;
 		 int get followingCount => _followingCount;
 		     set followingCount(int followingCount) 
 				   => _followingCount = followingCount;

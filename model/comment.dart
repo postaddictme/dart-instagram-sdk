@@ -7,7 +7,8 @@ class Comment extends InstagramModel {
 	User _sender;
 	String _id;
 	
-	Comment.fromJSON(String jsonString, String accessToken) : super(jsonString, accessToken) {
+	Comment.fromJSON(String accessToken, String jsonString) 
+	: super(accessToken, jsonString) {
 		Map comment = JSON.decode(jsonString);
 		createdTime = new DateTime.fromMillisecondsSinceEpoch(int.parse(comment['created_time']));
 		text = comment['text'];

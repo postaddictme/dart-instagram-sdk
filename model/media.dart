@@ -89,8 +89,8 @@ UriConstructor uriConstructor;
 	
 	
 	
-	Media.fromJSON(String jsonString, String accessToken) 
-		: super(jsonString, accessToken) {
+	Media.fromJSON(String accessToken, String jsonString) 
+		: super(accessToken, jsonString) {
 	
 	uriConstructor = new UriConstructor(null, null);
 	
@@ -110,16 +110,17 @@ UriConstructor uriConstructor;
 		filter = media['filter'];
 		tags = media['tags'];
 		link = media['link'];
-		user = new User.fromJSON(media['user'], accessToken);
-		createdTime = new DateTime.fromMillisecondsSinceEpoch(media['createdTime']);
+		user = new User.fromJSON( accessToken, JSON.encode(media['user']));
+		createdTime = new DateTime.fromMillisecondsSinceEpoch(
+				int.parse((media['created_time'])));
 		
 		Map images = media['images'];
 		lowResoltionImageSource = 
-			new ImageSource.fromJSON(images['low_resolution'], accessToken);
+			new ImageSource.fromJSON(accessToken, JSON.encode(images['low_resolution']));
 		thumbnailResolutionImageSource = 
-			new ImageSource.fromJSON(images['thumbnail'], accessToken);
+			new ImageSource.fromJSON(accessToken, JSON.encode(images['thumbnail']));
 		standardResoltuionImageSource = 
-			new ImageSource.fromJSON(images['standard_resolution'], accessToken);
+			new ImageSource.fromJSON(accessToken, JSON.encode(images['standard_resolution']));
 		
 		id = media['id'];
 		
@@ -127,7 +128,7 @@ UriConstructor uriConstructor;
 			location = new Location.fromJSON(media['location'], accessToken);
 		}
 		if (media['caption'] != null) {
-			caption = new Comment.fromJSON(media['caption'], accessToken);
+			caption = new Comment.fromJSON(accessToken, media['caption']);
 		}
 		if (media['user_has_liked'] != null) {
 			userHasLiked = media['user_has_liked'];
@@ -138,7 +139,7 @@ UriConstructor uriConstructor;
 		if (commentsJson['data']!=null) {
 			List data = commentsJson['data'];
 			comments = new List<Comment>();
-			data.forEach( (element) 
+			data.forEach( (element)
 			  => comments.add(new Comment.fromJSON(element, accessToken)));
 		}
 		
@@ -152,7 +153,7 @@ UriConstructor uriConstructor;
 		}
 	}
 	
-	Media getMedia (String jsonString, String accessToken) {
+	Media getMedia (String accessToken,String jsonString) {
 		Map media = JSON.decode(jsonString);
 		if (media['type'] == 'image') {
 			return new ImageMedia.fromJSON(jsonString, accessToken);
@@ -261,8 +262,8 @@ class VideoMedia extends Media {
 /**
  * Set of users tagged in photo
  */
- 	VideoMedia.fromJSON(String jsonString, String accessToken)
-      : super.fromJSON(jsonString, accessToken) {
+ 	VideoMedia.fromJSON(String accessToken, String jsonString )
+      : super.fromJSON(accessToken, jsonString) {
  		Map media = JSON.decode(jsonString);
  		Map video = media['videos'];
  		lowResolutionVideoSource = new VideoSource.fromJSON(video['low_resolution'], accessToken);
@@ -281,19 +282,19 @@ class VideoMedia extends Media {
 }
 
 class ImageMedia extends Media {
-	ImageMedia.fromJSON(String jsonString, String accessToken) 
-      : super.fromJSON(jsonString, accessToken);
+	ImageMedia.fromJSON(String accessToken, String jsonString) 
+      : super.fromJSON(accessToken, jsonString);
 
 }
 
 class VideoSource extends MediaSource {
-	VideoSource.fromJSON(String jsonString, String accessToken) 
-		: super.fromJSON(jsonString, accessToken);
+	VideoSource.fromJSON(String accessToken, String jsonString) 
+		: super.fromJSON(accessToken, jsonString);
 }
 
 class ImageSource extends MediaSource {
-	ImageSource.fromJSON(String jsonString, String accessToken) 
-		: super.fromJSON(jsonString, accessToken);
+	ImageSource.fromJSON(String accessToken, String jsonString) 
+		: super.fromJSON(accessToken, jsonString);
 }
 
 class MediaSource {
@@ -312,7 +313,7 @@ class MediaSource {
 	 */
 	int _height;
 	
-	MediaSource.fromJSON(String jsonString, String accessToken) {
+	MediaSource.fromJSON(String accessToken, String jsonString) {
 		Map image = JSON.decode(jsonString);
 		uri = image['url'];
 		width = image['width'];
@@ -335,7 +336,7 @@ class UserTaggedInMedia {
 	double _y;
 	User _user;
 	
-	UserTaggedInMedia.fromJSON(String jsonString, String accessToken) {
+	UserTaggedInMedia.fromJSON(String accessToken, String jsonString) {
 		Map userInPhoto = JSON.decode(jsonString);
 		Map position = userInPhoto['position'];
 		x = position['x'];
