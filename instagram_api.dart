@@ -1,0 +1,17 @@
+library dart.instagram_api;
+import 'dart:html' show HttpRequest;
+import 'dart:convert' show JSON;
+import 'dart:async';
+part 'model/comment.dart';
+part 'model/instagram_model.dart';
+part 'model/location.dart';
+part 'model/media.dart';
+part 'model/user.dart';
+part 'util/uri_factory.dart';
+part 'io/request_method.dart';
+part 'model/tag.dart';
+part 'model/realtionship.dart';
+part 'util/uri_constructor.dart';
+part 'auth/access_token.dart';
+part 'auth/instagram_auth.dart';
+part 'instagram_session.dart';

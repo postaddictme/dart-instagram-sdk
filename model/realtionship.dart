@@ -1,0 +1,38 @@
+part of dart.instagram_api;
+
+class OutgoingStatus {
+	static const String FOLLOWS = 'follows';
+	static const String REQUESTED = 'requested';
+	static const String NONE = 'none';
+}
+
+class IncomingStatus {
+	static const String FOLLOWED_BY = 'followed_by';
+	static const String REQUESTED_BY = 'requeste_by';
+	static const String BLOCKED_BY_YOU = 'blocked_by_you';
+	static const String NONE = 'none';
+}
+
+class Relationship extends InstagramModel {
+	String _outgoingStatus;
+	String _incomingStatus;
+	bool _targetUserIsPrivate;
+	
+	Relationship(String jsonString, String accessToken)
+      : super (jsonString, accessToken) {
+		Map relationship = JSON.decode(jsonString);
+		outgoingStatus = relationship['outgoing_status'];
+		incomingStatus = relationship['incoming_status'];
+		targetUserIsPrivate = relationship['target_user_is_private'];
+	}
+	
+	String get outgoingStatus => _outgoingStatus;
+				 set outgoingStatus (String outgoingStatus)
+				 	=> _outgoingStatus = outgoingStatus;
+	String get incomingStatus => _incomingStatus;
+				 set incomingStatus (String incomingStatus) 
+				 	=> _incomingStatus = incomingStatus;
+		bool get targetUserIsPrivate => _targetUserIsPrivate;
+			   set targetUserIsPrivate (bool targetUserIsPrivate)
+				  => _targetUserIsPrivate = targetUserIsPrivate;
+}
