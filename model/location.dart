@@ -15,9 +15,8 @@ class Location extends InstagramModel {
 	double get latitude => _latitude;
 				 set latitude (double latitude) => _latitude = latitude;
 				 
-	Location.fromJSON(String jsonString, String accessToken) 
-		: super(jsonString, accessToken) {
-		Map location = JSON.decode(jsonString);
+	Location(String accessToken, Map location) 
+		: super(accessToken, location) {
 		id = location['id'];
 		name = location['name'];
 		longitude = location['longitude'];

@@ -1,21 +1,20 @@
 part of dart.instagram_api;
 
 class User extends InstagramModel {
-	int _id;
+	
 	String _userName;
-	String _fullName;
-	String _profilePictureUri;
 	String _bio;
 	String _website;
+	String _profilePictureUri;
+	String _fullName;
 	int _mediaCount;
 	int _followerCount;
 	int _followingCount;
+	int _id;
 	
-	
-	User.fromJSON(String accessToken, String jsonString) 
-		: super( accessToken, jsonString) {
+	User(String accessToken, Map user) 
+		: super( accessToken, user) {
 		
-		Map user = JSON.decode(jsonString);
 		id = int.parse(user['id']);
 		userName = user['username'];
 		fullName = user['full_name'];
@@ -24,10 +23,9 @@ class User extends InstagramModel {
 		website = user['website'];
 		
 		if (user['counts'] != null) {
-			Map counts = user['counts'];
-  		mediaCount = counts['media'];
-  		followerCount = counts['followed_by'];
-  		followingCount = counts['follows'];
+  		mediaCount = user['counts']['media'];
+  		followerCount = user['counts']['followed_by'];
+  		followingCount = user['counts']['follows'];
 		}
 	}
 	

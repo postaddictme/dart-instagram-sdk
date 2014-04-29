@@ -3,14 +3,14 @@ part of dart.instagram_api;
 class InstagramModel {
 	String _accessToken;
 	String _clientId;
-	String _jsonModelString;
+	Map _mapModel;
 	
-	InstagramModel(this._accessToken, this._jsonModelString);
+	InstagramModel(this._accessToken, this._mapModel);
 	
 	String get accessToken => _accessToken;
 	       set accessToken (String accessToken) => _accessToken = accessToken;
-	String get jsonModelString  => _jsonModelString;
-	       set jsonModelString (String jsonModelString) 
-				   => _jsonModelString = jsonModelString;
+	Map get jsonModelString  => _mapModel;
+	       set jsonModelString (Map jsonModelString) 
+				   => _mapModel = jsonModelString;
 				 
 }

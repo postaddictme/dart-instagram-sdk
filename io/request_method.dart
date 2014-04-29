@@ -19,8 +19,6 @@ String doGet(String url, Map<String, String> data) {
 	}
 	
   String responseText;
-
-	
 	var req = new HttpRequest();
   req.open('GET', url, async: false);
   req.onLoadEnd.listen((event) => 

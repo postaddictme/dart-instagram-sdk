@@ -89,19 +89,18 @@ UriConstructor uriConstructor;
 	
 	
 	
-	Media.fromJSON(String accessToken, String jsonString) 
-		: super(accessToken, jsonString) {
+	Media(String accessToken, Map media) 
+		: super(accessToken, media) {
 	
 	uriConstructor = new UriConstructor(null, null);
 	
-		Map media = JSON.decode(jsonString);
 		type = media['type'];
 		
 		if (media['users_in_photo'] != null) {
 			List<Map> usersInPhotoFromJson = media['users_in_photo'];
 			Set<UserTaggedInMedia> usersInPhotoTemp = new Set<UserTaggedInMedia>();
 			addToSetUsersInMedia(element) {
-				usersInPhotoTemp.add(new UserTaggedInMedia.fromJSON(element, accessToken));
+				usersInPhotoTemp.add(new UserTaggedInMedia(accessToken, element));
 			}
 			usersInPhotoFromJson.forEach(addToSetUsersInMedia);
 			usersInPhoto = usersInPhotoTemp;
@@ -110,25 +109,25 @@ UriConstructor uriConstructor;
 		filter = media['filter'];
 		tags = media['tags'];
 		link = media['link'];
-		user = new User.fromJSON( accessToken, JSON.encode(media['user']));
+		user = new User( accessToken, media['user']);
 		createdTime = new DateTime.fromMillisecondsSinceEpoch(
 				int.parse((media['created_time'])));
 		
 		Map images = media['images'];
 		lowResoltionImageSource = 
-			new ImageSource.fromJSON(accessToken, JSON.encode(images['low_resolution']));
+			new ImageSource(accessToken, images['low_resolution']);
 		thumbnailResolutionImageSource = 
-			new ImageSource.fromJSON(accessToken, JSON.encode(images['thumbnail']));
+			new ImageSource(accessToken, images['thumbnail']);
 		standardResoltuionImageSource = 
-			new ImageSource.fromJSON(accessToken, JSON.encode(images['standard_resolution']));
+			new ImageSource(accessToken, images['standard_resolution']);
 		
 		id = media['id'];
 		
 		if (media['location'] != null) {
-			location = new Location.fromJSON(media['location'], accessToken);
+			location = new Location(accessToken, media['location']);
 		}
 		if (media['caption'] != null) {
-			caption = new Comment.fromJSON(accessToken, media['caption']);
+			caption = new Comment(accessToken, media['caption']);
 		}
 		if (media['user_has_liked'] != null) {
 			userHasLiked = media['user_has_liked'];
@@ -140,7 +139,7 @@ UriConstructor uriConstructor;
 			List data = commentsJson['data'];
 			comments = new List<Comment>();
 			data.forEach( (element)
-			  => comments.add(new Comment.fromJSON(element, accessToken)));
+			  => comments.add(new Comment(accessToken, element)));
 		}
 		
 		Map likesJson = media['likes'];
@@ -149,16 +148,15 @@ UriConstructor uriConstructor;
 			List data = likesJson['data'];
 			likers = new List<User>();
 			data.forEach((element) 
-			  => likers.add(new User.fromJSON(element, accessToken)) );
+			  => likers.add(new User(accessToken, element)) );
 		}
 	}
 	
-	Media getMedia (String accessToken,String jsonString) {
-		Map media = JSON.decode(jsonString);
+	Media getMedia (String accessToken, Map media) {
 		if (media['type'] == 'image') {
-			return new ImageMedia.fromJSON(jsonString, accessToken);
+			return new ImageMedia(accessToken, media);
 		} else {
-			return new VideoMedia.fromJSON(jsonString, accessToken);
+			return new VideoMedia(accessToken, media);
 		}
 	}
 	
@@ -174,7 +172,7 @@ UriConstructor uriConstructor;
 			List data = responseJson['data'];
 			comments.clear();
 			data.forEach( (element) 
-				=> comments.add(new Comment.fromJSON(element, accessToken)));
+				=> comments.add(new Comment(accessToken, element)));
 			commentCount = comments.length;
 		}
 	}
@@ -191,7 +189,7 @@ UriConstructor uriConstructor;
 			likers.clear();
 			likers = new List<User>();
 			data.forEach((element) 
-			  => likers.add(new User.fromJSON(element, accessToken)) );
+			  => likers.add(new User(accessToken, element)) );
 			likesCount = likers.length;
 		}
 	}
@@ -262,12 +260,11 @@ class VideoMedia extends Media {
 /**
  * Set of users tagged in photo
  */
- 	VideoMedia.fromJSON(String accessToken, String jsonString )
-      : super.fromJSON(accessToken, jsonString) {
- 		Map media = JSON.decode(jsonString);
+ 	VideoMedia( String accessToken, Map media )
+      : super(accessToken, media) {
  		Map video = media['videos'];
- 		lowResolutionVideoSource = new VideoSource.fromJSON(video['low_resolution'], accessToken);
- 		standardResoltuionVideoSource = new VideoSource.fromJSON(video['standard_resolution'], accessToken);
+ 		lowResolutionVideoSource = new VideoSource(accessToken, video['low_resolution']);
+ 		standardResoltuionVideoSource = new VideoSource(accessToken, video['standard_resolution']);
  }
 
  	VideoSource get lowResolutionVideoSource
@@ -282,19 +279,19 @@ class VideoMedia extends Media {
 }
 
 class ImageMedia extends Media {
-	ImageMedia.fromJSON(String accessToken, String jsonString) 
-      : super.fromJSON(accessToken, jsonString);
+	ImageMedia(String accessToken, Map media) 
+      : super(accessToken, media);
 
 }
 
 class VideoSource extends MediaSource {
-	VideoSource.fromJSON(String accessToken, String jsonString) 
-		: super.fromJSON(accessToken, jsonString);
+	VideoSource(String accessToken, Map video) 
+		: super(accessToken, video);
 }
 
 class ImageSource extends MediaSource {
-	ImageSource.fromJSON(String accessToken, String jsonString) 
-		: super.fromJSON(accessToken, jsonString);
+	ImageSource(String accessToken, Map image) 
+		: super(accessToken, image);
 }
 
 class MediaSource {
@@ -313,8 +310,7 @@ class MediaSource {
 	 */
 	int _height;
 	
-	MediaSource.fromJSON(String accessToken, String jsonString) {
-		Map image = JSON.decode(jsonString);
+	MediaSource(String accessToken, Map image) {
 		uri = image['url'];
 		width = image['width'];
 		height = image['height'];
@@ -336,12 +332,11 @@ class UserTaggedInMedia {
 	double _y;
 	User _user;
 	
-	UserTaggedInMedia.fromJSON(String accessToken, String jsonString) {
-		Map userInPhoto = JSON.decode(jsonString);
+	UserTaggedInMedia(String accessToken, Map userInPhoto) {
 		Map position = userInPhoto['position'];
 		x = position['x'];
 		y = position['y'];
-		user = new User.fromJSON(userInPhoto['user'], accessToken) ;
+		user = new User(accessToken, userInPhoto['user']) ;
 		
 	}
 	double get x => _x;

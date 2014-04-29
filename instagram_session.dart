@@ -21,13 +21,13 @@ class InstagramSession {
 		data.clear();
 		data['access_token'] = accessToken;
 		String jsonUser = doGet(uri, data);
-		print('');
+		//print(jsonUser);
 		Map request = JSON.decode(jsonUser);
-		User user = new User.fromJSON(accessToken, JSON.encode(request['data']));
+		User user = new User(accessToken, request['data']);
 		return user;
 	}
 	
-	List<Media> getRecentPublishedMedia(int userId) {
+	PaginatedCollection<Media> getRecentPublishedMedia(int userId) {
 		Map<String, String> data = new Map<String, String>();
 		data['user_id'] = userId.toString();
 		String uri = UriConstructor.constructUri(UriFactory.USER_GET_RECENT_MEDIA, data);
@@ -38,12 +38,9 @@ class InstagramSession {
     Map mapMedias = JSON.decode(jsonMedias);
     //List<String> jsonMediasList; 
     List<String> mediasJson = mapMedias['data'];
-    //print(mediasJson[0]);
-    //List<Media> medias = new List<Media>();
-    for (int i = 0; i < mediasJson.length; i++) {
-    	Media media = new Media.fromJSON(accessToken, JSON.encode(mediasJson[i]));
-    }
-    return null;
+    List<Media> medias = new List<Media>();
+		PaginationIterator<Media> iterator =  new PaginationIterator<Media>(medias, uri+'?access_token='+accessToken);
+    return new PaginatedCollection<Media>(medias, iterator);
 	}
 }
 // 193886659.1fb234f.f25f2aa534834fd48f6b4965ab424b7c 

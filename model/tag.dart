@@ -5,9 +5,8 @@ class Tag extends InstagramModel {
 	int _mediaCount;
 	
 	
-	Tag.fromJSON(String jsonString, String accessToken) 
-		: super(jsonString, accessToken) {
-		Map tag = JSON.decode(jsonString);
+	Tag(String accessToken, Map tag ) 
+		: super(accessToken, tag) {
 		name = tag['name'];
 		mediaCount = tag['media_count'];
 	}

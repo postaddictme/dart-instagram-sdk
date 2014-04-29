@@ -18,9 +18,8 @@ class Relationship extends InstagramModel {
 	String _incomingStatus;
 	bool _targetUserIsPrivate;
 	
-	Relationship(String jsonString, String accessToken)
-      : super (jsonString, accessToken) {
-		Map relationship = JSON.decode(jsonString);
+	Relationship(String accessToken, Map relationship)
+      : super (accessToken, relationship) {
 		outgoingStatus = relationship['outgoing_status'];
 		incomingStatus = relationship['incoming_status'];
 		targetUserIsPrivate = relationship['target_user_is_private'];
