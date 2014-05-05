@@ -51,7 +51,6 @@ class PaginationIterator<E> extends Iterator<E> {
 		this.index = 0;
 		return this;
 	}
-	
-	
-	
 }
+
+
