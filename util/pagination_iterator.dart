@@ -41,16 +41,14 @@ class PaginationIterator<E> extends Iterator<E> {
 		handleLoad(element['data']);
 	}
 	
-	void handleLoad(mediaItems) {
-		for (var mediaItem in mediaItems) {
-			list.add(new Media('', mediaItem));
-		}					
+	void handleLoad(Map data) {
+		
 	}
+	
+
 	
 	PaginationIterator<E> reset() {
 		this.index = 0;
 		return this;
 	}
 }
-
-

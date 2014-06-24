@@ -14,17 +14,19 @@ class InstagramSession {
 	String get clientId => _clientId;
 				 set clientId (String id) => _clientId = id;
 				 
-	User getUserById(int userId) {
+	Future<User> getUserById(int userId) {
 		Map<String, String> data = new Map<String, String>();
 		data['user_id'] = userId.toString();
 		String uri = UriConstructor.constructUri(UriFactory.USER_GET_DATA, data);
 		data.clear();
 		data['access_token'] = accessToken;
-		String jsonUser = doGet(uri, data);
-		//print(jsonUser);
-		Map request = JSON.decode(jsonUser);
-		User user = new User(accessToken, request['data']);
-		return user;
+//		String jsonUser = doGet(uri, data);
+//		//print(jsonUser);
+//		Map request = JSON.decode(jsonUser);
+//		User user = new User(accessToken, request['data']);
+		Future future = doGet(uri, data);
+	return future;
+//		
 	}
 	
 	PaginatedCollection<Media> getRecentPublishedMedia(int userId) {

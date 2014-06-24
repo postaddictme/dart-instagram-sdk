@@ -1,6 +1,7 @@
 library dart.instagram_api;
 import 'dart:html' show HttpRequest;
 import 'dart:convert' show JSON;
+import 'dart:async' show Future;
 part 'model/comment.dart';
 part 'model/instagram_model.dart';
 part 'model/location.dart';

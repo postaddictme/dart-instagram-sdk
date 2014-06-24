@@ -7,7 +7,9 @@ class InstagramAuth {
 	String _accessToken;
 	  User _sessionUser;
 	String _scope = 'likes+comments+relationships+basic';
-	String _responseType;
+	String _responseType='token';
+	
+	InstagramAuth(this._clientId, this._clientSecret, this._redirectUri);
 	
 	String get authUri {
 		if ( clientId == null || redirectUri == null ) {
@@ -22,7 +24,7 @@ class InstagramAuth {
 		return UriConstructor.constructUri(UriFactory.USER_AUTHORIZATION, map);
 	}
 	
-	String buildToken(String code) {
+	void buildToken(String code) {
 		if (clientId == null || clientSecret == null
 				|| redirectUri == null) {
 			throw 'Please make sure that the clientId and redirectUri fields are set';
@@ -39,7 +41,7 @@ class InstagramAuth {
 		String jsonString = doPost(UriFactory.GET_ACCESS_TOKEN, args);
 		Map userAndToken = JSON.decode(jsonString);
 		accessToken = userAndToken['access_token'];
-		sessionUser = new User.fromJSON(userAndToken['user'], accessToken);
+		sessionUser = new User(accessToken, userAndToken['user']);
 	}
 	
 	String get redirectUri => _redirectUri;
