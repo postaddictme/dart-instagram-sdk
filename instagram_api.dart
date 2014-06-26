@@ -1,7 +1,6 @@
 library dart.instagram_api;
 import 'dart:html' show HttpRequest;
 import 'dart:convert' show JSON;
-import 'dart:async' show Future;
 part 'model/comment.dart';
 part 'model/instagram_model.dart';
 part 'model/location.dart';
@@ -17,3 +16,4 @@ part 'auth/instagram_auth.dart';
 part 'instagram_session.dart';
 part 'util/pagination_iterator.dart';
 part 'util/paginated_collection.dart';
+part 'util/model_type.dart';

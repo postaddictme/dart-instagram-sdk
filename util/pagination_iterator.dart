@@ -2,19 +2,22 @@ part of dart.instagram_api;
 
 class PaginationIterator<E> extends Iterator<E> {
 	String nextUri;
+	String type;
 	List<E> list;
 	int index = 0;
 	
-	PaginationIterator(list, nextUri) {
+	PaginationIterator(list, nextUri, type) {
 		this.list = list;
 		this.nextUri = nextUri;
+		this.type = type;
 		if (this.list.length == 0 ) fetch();
 	}
 	
 	bool moveNext() {
 		if ( index >= this.list.length - 1 ) {
-			this.fetch();
+			return this.fetch();
 		}
+		print(index);
 		index++;
 		return true;
 	}
@@ -28,20 +31,31 @@ class PaginationIterator<E> extends Iterator<E> {
 		else return false;
 	}
 	
-	void fetch() {
+	bool fetch() {
 		if (this.isPaginationComplete()) {
-			return;
+			return false;
 		}
 		
 		String jsonResponse = doGet(nextUri, null);
 		Map element = JSON.decode(jsonResponse);
 		if (element['pagination'] != null) {
 			nextUri = element['pagination']['next_url'];
+		} else {
+			nextUri = null;
 		}
 		handleLoad(element['data']);
+		return true;
 	}
 	
-	void handleLoad(Map data) {
+	void handleLoad(List<String> data) {
+		switch (type) {
+			case 'MEDIA':
+				data.forEach( (jsonMedia) {
+				list.add(new Media('', jsonMedia));
+			});
+				break;
+		}
+		
 		
 	}
 	

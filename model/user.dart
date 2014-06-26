@@ -14,7 +14,6 @@ class User extends InstagramModel {
 	
 	User(String accessToken, Map user) 
 		: super( accessToken, user) {
-		
 		id = int.parse(user['id']);
 		userName = user['username'];
 		fullName = user['full_name'];

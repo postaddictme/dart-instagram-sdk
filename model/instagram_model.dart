@@ -5,6 +5,8 @@ class InstagramModel {
 	String _clientId;
 	Map _mapModel;
 	
+	
+	
 	InstagramModel(this._accessToken, this._mapModel);
 	
 	String get accessToken => _accessToken;
@@ -12,5 +14,4 @@ class InstagramModel {
 	Map get jsonModelString  => _mapModel;
 	       set jsonModelString (Map jsonModelString) 
 				   => _mapModel = jsonModelString;
-				 
 }

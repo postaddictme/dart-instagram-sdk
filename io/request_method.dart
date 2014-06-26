@@ -10,7 +10,7 @@ String doPost(String url, Map<String, String> data) {
 	return responseText;
 }
 
-Future doGet(String url, Map<String, String> data) {
+String doGet(String url, Map<String, String> data) {
 	
 	if ( data != null ) {
 		String getData = '?';
@@ -20,13 +20,13 @@ Future doGet(String url, Map<String, String> data) {
 	
   String responseText;
 	var req = new HttpRequest();
-//  req.open('GET', url, async: false);
-//  req.onLoadEnd.listen((event) => 
-//  		responseText = event.target.responseText
-//  		);
-//  req.send();
-	Future future = HttpRequest.getString(url);
+  req.open('GET', url, async: false);
+  req.onLoadEnd.listen((event) => 
+  		responseText = event.target.responseText
+  		);
+  req.send();
+	//Future future = HttpRequest.getString(url);
 
-	return future;
+	return responseText;
 }
 

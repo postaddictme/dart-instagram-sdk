@@ -14,34 +14,53 @@ class InstagramSession {
 	String get clientId => _clientId;
 				 set clientId (String id) => _clientId = id;
 				 
-	Future<User> getUserById(int userId) {
+				 
+  /* User endpoints from http://instagram.com/developer/endpoints/users/ 	*/
+	
+	/* Get basic information about a user. */
+	User getUserById(int userId) {
 		Map<String, String> data = new Map<String, String>();
 		data['user_id'] = userId.toString();
 		String uri = UriConstructor.constructUri(UriFactory.USER_GET_DATA, data);
 		data.clear();
 		data['access_token'] = accessToken;
-//		String jsonUser = doGet(uri, data);
-//		//print(jsonUser);
-//		Map request = JSON.decode(jsonUser);
-//		User user = new User(accessToken, request['data']);
-		Future future = doGet(uri, data);
-	return future;
-//		
+		String jsonUser = doGet(uri, data);
+		Map request = JSON.decode(jsonUser);
+		User user = new User(accessToken, request['data']);
+	  return user;
 	}
+	
+	/* Search for a user by name */
+	List<User> searchUserByName(String username) {
+		Map<String, String> data = new Map<String, String>();
+		data['q'] = username;
+		data['access_token'] = accessToken;
+		String uri = UriConstructor.constructUri(UriFactory.USER_SEARCH_USER_BY_NAME, data);
+		String jsonUsers = doGet(uri, data);
+		Map request = JSON.decode(jsonUsers);
+		
+		List<User> users = new List<User>();
+		request['data'].forEach((jsonUser) {
+			users.add(new User(accessToken, jsonUser));
+		});
+		return(users);
+	}
+	
+	/* See the authenticated user's feed. May return a mix of both image and video types. */
+	PaginatedCollection<Media> getSelfFeed() {
+		
+	}
+	
 	
 	PaginatedCollection<Media> getRecentPublishedMedia(int userId) {
 		Map<String, String> data = new Map<String, String>();
 		data['user_id'] = userId.toString();
 		String uri = UriConstructor.constructUri(UriFactory.USER_GET_RECENT_MEDIA, data);
 		data.clear();
-    data['access_token'] = accessToken;
-    String jsonMedias = doGet(uri, data);
-    print(jsonMedias);
-    Map mapMedias = JSON.decode(jsonMedias);
-    //List<String> jsonMediasList; 
-    List<String> mediasJson = mapMedias['data'];
     List<Media> medias = new List<Media>();
-		PaginationIterator<Media> iterator =  new PaginationIterator<Media>(medias, uri+'?access_token='+accessToken);
+		PaginationIterator<Media> iterator =  
+				new PaginationIterator<Media>(medias, uri+'?access_token='+accessToken, ModelType.MEDIA);
+
     return new PaginatedCollection<Media>(medias, iterator);
 	}
 }
