@@ -5,7 +5,7 @@ class UriFactory {
 	
 	/* User */
 	static final String USER_GET_DATA = API_ROOT + '/users/{user_id}';
-	static final String USER_GET_FEED = API_ROOT + '/users/self/feed';
+	static final String USER_GET_SELF_FEED = API_ROOT + '/users/self/feed';
 	static final String USER_GET_RECENT_MEDIA = API_ROOT + '/users/{user_id}/media/recent';
 	static final String USER_GET_LICKED_MEDIA = API_ROOT + '/users/self/media/liked';
 	static final String USER_SEARCH_USER_BY_NAME = API_ROOT + '/users/search';
