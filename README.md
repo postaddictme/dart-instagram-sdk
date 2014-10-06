@@ -1,7 +1,7 @@
 instagram-dart
 ==============
 
-Alpha version, works but no documents and many bugs
+Alpha version, works but has not documented yet and many bugs
 
 Dart Instagram API wrapper
 
