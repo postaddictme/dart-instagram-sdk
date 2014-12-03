@@ -159,5 +159,43 @@ class InstagramSession {
 
 	 }
 
+	  /* Media Endpoints from http://instagram.com/developer/endpoints/media  */
+
+	 /*
+	  * Get information about a media object. The returned type key will allow you to differentiate between image and video media.
+	  * Note: if you authenticate with an OAuth Token, you will receive the user_has_liked key
+	  * which quickly tells you whether the current user has liked this media item.
+	  */
+	 Media getMediaById(int mediaId) {
+	   Map<String, String> data = new Map<String, String>();
+     data['media_id'] = mediaId.toString();
+     String uri = UriConstructor.constructUri(UriFactory.MEDIA_GET_BY_ID, data);
+     data.clear();
+     data['access_token'] = accessToken;
+     String jsonUser = doGet(uri, data);
+     Map request = JSON.decode(jsonUser);
+     Media media = new Media(accessToken, request['data']);
+     return media;
+	 }
+
+	 /*
+	  * This endpoint returns the same response as GET /media/media-id.
+	  * A media object's shortcode can be found in its shortlink URL.
+	  * An example shortlink is http://instagram.com/p/D/
+	  * Its corresponding shortcode is D.
+	  */
+	 Media getMediaByShortcode(String shortcode) {
+     Map<String, String> data = new Map<String, String>();
+     data['shortcode'] = shortcode.toString();
+     String uri = UriConstructor.constructUri(UriFactory.MEDIA_GET_BY_SHORCODE, data);
+     data.clear();
+     data['access_token'] = accessToken;
+     String jsonUser = doGet(uri, data);
+     Map request = JSON.decode(jsonUser);
+     Media media = new Media(accessToken, request['data']);
+     return media;
+	 }
+
+
 }
 // 193886659.1fb234f.f25f2aa534834fd48f6b4965ab424b7c

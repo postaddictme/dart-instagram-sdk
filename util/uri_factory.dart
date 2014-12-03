@@ -23,7 +23,8 @@ class UriFactory {
 		API_ROOT + "/users/{user_id}/relationship";
 
 	/* Media */
-		static final String MEDIA_GET = API_ROOT + "/media/{media_id}";
+		static final String MEDIA_GET_BY_ID = API_ROOT + "/media/{media_id}";
+		static final String MEDIA_GET_BY_SHORCODE = API_ROOT + "/media/shortcode/{shortcode}";
 		static final String MEDIA_SEARCH = API_ROOT + "/media/search";
 		static final String MEDIA_GET_POPULAR = API_ROOT + "/media/popular";
 
@@ -45,9 +46,9 @@ class UriFactory {
 	static final String SEARCH_TAGS = API_ROOT + "/tags/search";
 
 	/* Locations */
-		static final String GET_LOCATION = API_ROOT + "/locations/{location_id}";
-		static final String GET_MEDIA_FROM_LOCATION = API_ROOT + "/locations/{location_id}/media/recent";
-		static final String SEARCH_LOCATIONS = API_ROOT + "/locations/search";
+	static final String GET_LOCATION = API_ROOT + "/locations/{location_id}";
+	static final String GET_MEDIA_FROM_LOCATION = API_ROOT + "/locations/{location_id}/media/recent";
+	static final String SEARCH_LOCATIONS = API_ROOT + "/locations/search";
 
 	/* Auth */
 	static final String USER_AUTHORIZATION
