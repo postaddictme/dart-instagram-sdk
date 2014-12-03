@@ -9,8 +9,8 @@ String doPost(String url, Map<String, String> data) {
         );
     req.setRequestHeader("content-Type", "application/json");
     String params = '';
-    data.forEach((key, value){
-      params=key+'='+value;
+    data.forEach((key, value) {
+      params = key + '=' + value + '&';
     });
     req.send(params);
     return responseText;
@@ -20,9 +20,11 @@ String doPost(String url, Map<String, String> data) {
 String doGet(String url, Map<String, String> data) {
 
 	if ( data != null ) {
-		String getData = '?';
-		data.forEach((key,value) { getData += '$key=$value&'; });
-		url += getData;
+		String params = '?';
+		data.forEach((key,value) {
+		  params += key + '=' + value + '&';
+	  });
+		url += params;
 	}
 
   String responseText;
@@ -32,6 +34,7 @@ String doGet(String url, Map<String, String> data) {
   		responseText = event.target.responseText
   		);
   req.send();
+
 	return responseText;
 }
 
