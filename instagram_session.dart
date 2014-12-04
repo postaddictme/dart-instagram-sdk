@@ -195,6 +195,38 @@ class InstagramSession {
      Media media = new Media(accessToken, request['data']);
      return media;
 	 }
+	 /* Search for media in a given area. The default time span is set to 5 days.
+	  * The time span must not exceed 7 days.
+	  * Defaults time stamps cover the last 5 days. Can return mix of image and video types.
+	  *
+	  */
+	  PaginatedCollection<Media> searchMedia(double lat, double lng, int minTimestamp, int maxTimestamp, int distance) {
+     String uri = UriFactory.MEDIA_SEARCH;
+     Map<String, String> params = new Map<String, String>();
+     params['lat'] = lat.toString();
+     params['lng'] = lng.toString();
+     params['min_timestamp'] = minTimestamp.toString();
+     params['max_timestamp'] = maxTimestamp.toString();
+     params['distance'] = distance.toString();
+     params['access_token'] = accessToken;
+     List<Media> medias = new List<Media>();
+     PaginationIterator<Media> iterator =
+             new PaginationIterator<Media>(medias, UriConstructor.uriFromMap(uri, params), ModelType.MEDIA);
+     return new PaginatedCollection<Media>(medias, iterator);
+   }
+
+
+	  /* Get a list of what media is most popular at the moment. Can return mix of image and video types. */
+	  PaginatedCollection<Media> getPopular() {
+      String uri = UriFactory.MEDIA_GET_POPULAR;
+      List<Media> medias = new List<Media>();
+      PaginationIterator<Media> iterator =
+          new PaginationIterator<Media>(medias, uri+'?access_token='+accessToken, ModelType.MEDIA);
+
+      return new PaginatedCollection<Media>(medias, iterator);
+    }
+
+
 
 
 }
