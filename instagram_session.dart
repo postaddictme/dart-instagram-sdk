@@ -229,7 +229,7 @@ class InstagramSession {
 	  /* Comment Endpoints from http://instagram.com/developer/endpoints/comments  */
 
 	  /* Get a full list of comments on a media object. */
-	  PaginatedCollection<Comment> getCommentsByMediaId(int mediaId) {;
+	  PaginatedCollection<Comment> getCommentsByMediaId(int mediaId) {
 	    Map<String, String> data = new Map<String, String>();
 	    data['media_id'] = mediaId.toString();
 	    String uri = UriConstructor.constructUri(UriFactory.GET_MEDIA_COMMENTS, data);
