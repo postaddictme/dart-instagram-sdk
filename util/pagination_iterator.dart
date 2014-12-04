@@ -60,6 +60,11 @@ class PaginationIterator<E> extends Iterator<E> {
         list.add(new User('', jsonMedia));
       });
         break;
+      case 'COMMENT':
+        data.forEach( (jsonMedia) {
+        list.add(new Comment('', jsonMedia));
+      });
+        break;
 		}
 
 

@@ -222,11 +222,23 @@ class InstagramSession {
       List<Media> medias = new List<Media>();
       PaginationIterator<Media> iterator =
           new PaginationIterator<Media>(medias, uri+'?access_token='+accessToken, ModelType.MEDIA);
-
       return new PaginatedCollection<Media>(medias, iterator);
     }
 
 
+	  /* Comment Endpoints from http://instagram.com/developer/endpoints/comments  */
+
+	  /* Get a full list of comments on a media object. */
+	  PaginatedCollection<Comment> getCommentsByMediaId(int mediaId) {;
+	    Map<String, String> data = new Map<String, String>();
+	    data['media_id'] = mediaId.toString();
+	    String uri = UriConstructor.constructUri(UriFactory.GET_MEDIA_COMMENTS, data);
+      data.clear();
+      List<Comment> comments = new List<Comment>();
+      PaginationIterator<Comment> iterator =
+          new PaginationIterator<Comment>(comments, uri+'?access_token='+accessToken, ModelType.COMMENT);
+      return new PaginatedCollection<Comment>(comments, iterator);
+	  }
 
 
 }
